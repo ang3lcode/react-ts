@@ -35,7 +35,8 @@ function App(): JSX.Element {
       <button onClick={addNewFox}>Add new fox</button>
       {images.map(({ id, url }) => (
         <div className="p-4" key={id}>
-          <RandomFox image={url} /> 
+          <RandomFox src={url} 
+          onClick={() => console.log('hey')} /> 
         </div>
       ))}
     </>

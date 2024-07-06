@@ -1,10 +1,14 @@
 import { useEffect, useRef, useState } from "react";
+import type { ImgHTMLAttributes } from "react";
 
-type Props = { image: string };
 
-export const RandomFox = ({ image }: Props): JSX.Element => {
+type lazyImageProps = { src: string};
+type ImageNative = ImgHTMLAttributes<HTMLImageElement>
+type Props = lazyImageProps & ImageNative
+
+export const RandomFox = ({ src, ...imgPrpos }: Props): JSX.Element => {
   const node = useRef<HTMLImageElement>(null);
-  const [src, setSrc] = useState(
+  const [currentSrc, setCurrentSrc] = useState(
     "data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMzIwIiBoZWlnaHQ9IjMyMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB2ZXJzaW9uPSIxLjEiLz4="
   );
   useEffect(() => {
@@ -14,7 +18,7 @@ export const RandomFox = ({ image }: Props): JSX.Element => {
         //onintersection -> consol
         if (entry.isIntersecting) {
           //   console.log("hey you");
-          setSrc(image);
+          setCurrentSrc(src);
         }
       });
     });
@@ -26,7 +30,15 @@ export const RandomFox = ({ image }: Props): JSX.Element => {
     return () => {
       observer.disconnect();
     };
-  }, [image]);
+  }, [src]);
 
-  return <img ref={node} src={src} className="w-1/2  rounded-md bg-gray-300" />;
+  return (
+    <img
+      ref={node}
+      src={currentSrc}
+      className="w-1/2  rounded-md bg-gray-300"
+      {...imgPrpos}
+    //   onClick={onClick}
+    />
+  );
 };
