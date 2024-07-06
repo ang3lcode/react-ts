@@ -33,10 +33,13 @@ function App(): JSX.Element {
     <>
       <h1 className="text-3xl font-bold underline bg-pink-600">Hello world!</h1>
       <button onClick={addNewFox}>Add new fox</button>
-      {images.map(({ id, url }) => (
+      {images.map(({ id, url }, index) => (
         <div className="p-4" key={id}>
           <RandomFox src={url} 
-          onClick={() => console.log('hey')} /> 
+          onClick={() => console.log('hey')}
+          onLazyLoad={(img) => {
+            console.log(`Image #${index + 1} cargada. Nodo:`, img);
+          }} /> 
         </div>
       ))}
     </>
